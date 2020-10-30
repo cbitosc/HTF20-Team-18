@@ -1,0 +1,21 @@
+* {	
+	text-align: center;
+	font-family: 'Dancing Script', cursive;
+}
+	
+	
+.card {
+	background-color: #F64C72;
+	float:left;
+	text-align: center;
+	padding: 50px 50px;
+	margin-left:8.4%;
+	margin-top:8.4%;
+	width: 180px;
+	height: 180px;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	transition: 0.3s;
+	border-radius: 10px;
+	font-family: 'Dancing Script', cursive;
+	font-size:23px;
+}
