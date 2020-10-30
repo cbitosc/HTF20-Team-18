@@ -4,6 +4,11 @@ const path = require('path');
 const BodyParser = require("body-parser");
 const Bcrypt = require("bcryptjs");
 dotenv.config();
+var multer = require('multer');
+var upload = multer(); 
+
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 const app = express();
 const mongoose = require('mongoose');
 app.set('view engine', 'ejs');
@@ -13,7 +18,9 @@ app.use(express.urlencoded({
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extend: true }));
 app.use(express.static('/public'));
-
+app.use(cookieParser());
+app.use(session({secret: "Shh, its a secret!"}));
+app.use(upload.array());
 
 const user = require('./models/user')
 
@@ -40,20 +47,7 @@ app.get('/signup', (req, res) => {
     res.render('signup.ejs');
 });
 
-/*app.post("/login", (req,res)=>{
-    user.findOne({email:req.body.emailid, password:req.body.password}, function(err,usr)
-    {
-        if(err|| !usr)
-        {
-        console.log("User not found/registered")
-        res.render('signup.ejs');
-        }
-        else{
-        console.log("logged in");
-        }
-       // render notes main page 
-    }
-)}); */
+
 
 app.post("/login", async (request, response) => {
     try {
@@ -71,6 +65,7 @@ app.post("/login", async (request, response) => {
        // response.send({ message: "The username and password combination is correct!" });
         else
             {console.log('yay');
+            //req.session.user = usr;
             response.render('mainpage.ejs');}
     } catch (error) {
         response.status(500).send(error);
@@ -94,6 +89,7 @@ app.route('/signup')
         console.log(req.body)
         try {
             await User.save();
+            //req.session.user = User;
             res.redirect('/mainpage'); // redirect to notes mainpg
         } catch (err) {
             console.log(err);
@@ -101,7 +97,16 @@ app.route('/signup')
         }
     });
 
-
+    // function checkSignIn(req, res){
+    //     if(req.session.user){
+    //       res.redirect('/mainpage');  //If session exists, proceed to page
+    //     } else {
+    //         res.redirect('/'); 
+    //     //    var err = new Error("Not logged in!");
+    //     //    console.log(req.session.user);
+    //     //    console.log(err);  //Error, trying to access unauthorized page!
+    //     }
+    //  }
 
 
 app.get('/signup', (req, res) => {
@@ -109,40 +114,25 @@ app.get('/signup', (req, res) => {
 });
 
 
-app.get('/mainpage', (req,res)=>{
+// app.get('/mainpage', (req,res)=>{
+//     res.render('mainpage.ejs',{id: req.session.user.id});
+// });
+
+
+app.get('/mainpage',  function(req, res){
     res.render('mainpage.ejs');
-});
+ });
 
 
-/*
---------------------------------
-            USE THIS GET METHOD TO TEST THE SIGN UP METHODS
---------------------------------
-            ↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-*/
+ app.use('/protected_page', function(err, req, res, next){
+    console.log(err);
+       //User should be authenticated! Redirect him to log in.
+       res.redirect('/login');
+    });
 
-
-
-app.get('/test',(req, res)=>{
-    note.find({}, (err, note) => {
-        console.log(note);
-        res.send(note);
-    })
-})
-
-
-
-
-// app.get('/test',(req, res)=>{
-//     user.find({}, (err, user) => {
-//         console.log(user);
-//         res.send(user);
-//     })
-// })
-
-
-
-
-/*app.post('/signup',(req,res)=>{
-    res.render('loginsuccessful.ejs');
-});*/
+app.get('/logout', function(req, res){
+        req.session.destroy(function(){
+           console.log("user logged out.")
+        });
+        res.redirect('/');
+     });
