@@ -6,11 +6,31 @@ const Bcrypt = require("bcryptjs");
 dotenv.config();
 var multer = require('multer');
 var upload = multer(); 
-
+var http = require('http');
+const socketio = require('socket.io');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
+var myPythonScriptPath = 'books.py';
+var myPythonScriptPath1 = 'movies.py';
+var myPythonScriptPath2 = 'tvshows.py';
+const {PythonShell} = require("python-shell");
+var pyshell = new PythonShell(myPythonScriptPath);
+var pyshell2 = new PythonShell(myPythonScriptPath1);
+var pyshell3 = new PythonShell(myPythonScriptPath2);
+
+//var PythonShell = require ('python-shell');
+
+
+
+
 const app = express();
+
+const server = http.createServer(app);
+const io = socketio(server);
+
+const formatMessage = require('./utils/messages');
+
 const mongoose = require('mongoose');
 app.set('view engine', 'ejs');
 
@@ -19,12 +39,30 @@ app.use(express.urlencoded({
 }));
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extend: true }));
-app.use(express.static('/public'));
+// app.use(express.static('/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(session({secret: "Shh, its a secret!"}));
 app.use(upload.array());
 
 const user = require('./models/user');
+
+
+
+
+const PORT = process.env.PORT || 3000;
+
+mongoose.connect(process.env.DB_CONNECT, {
+  useNewUrlParser: true
+}, () => {
+  console.log("db connection established");
+  app.listen(PORT, () => {
+      console.log(`Listening on port: ${PORT}`);
+  });
+});
+
+//server.listen(PORT, () => console.log('Server running on port ${PORT}'));
+
 
 const {
     userJoin,
@@ -33,8 +71,8 @@ const {
     getRoomUsers
   } = require('./utils/users');
 
-const server = http.createServer(app);
-const io = socketio(server);
+// const server = http.createServer(app);
+// const io = socketio(server);
 
 const botName = 'ChatCord Bot';
 
@@ -63,6 +101,17 @@ io.on('connection', socket => {
     });
   });
 
+    // Runs when client disconnects
+    socket.on('disconnect', () => {
+      const user = userLeave(socket.id);
+  
+      if (user) {
+        io.to(user.room).emit(
+          'message',
+          formatMessage(botName, `${user.username} has left the chat`)
+        );
+  
+
   // Listen for chatMessage
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
@@ -70,15 +119,6 @@ io.on('connection', socket => {
     io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
 
-  // Runs when client disconnects
-  socket.on('disconnect', () => {
-    const user = userLeave(socket.id);
-
-    if (user) {
-      io.to(user.room).emit(
-        'message',
-        formatMessage(botName, `${user.username} has left the chat`)
-      );
 
       // Send users and room info
       io.to(user.room).emit('roomUsers', {
@@ -91,68 +131,7 @@ io.on('connection', socket => {
 
 
 
-// const rooms = { };
 
-// app.get('/forum', (req, res) => {
-//     res.render('forum.ejs', { rooms: rooms })
-//   })
-  
-//   app.post('/room', (req, res) => {
-//     if (rooms[req.body.room] != null) {
-//       return res.redirect('/')
-//     }
-//     rooms[req.body.room] = { users: {} }
-//     res.redirect(req.body.room)
-//     // Send message that new room was created
-//     io.emit('room-created', req.body.room)
-//   })
-  
-//   app.get('/:room', (req, res) => {
-//     if (rooms[req.params.room] == null) {
-//       return res.redirect('/')
-//     }
-//     res.render('room', { roomName: req.params.room })
-//   })
-  
-// //server.listen(3000)
-  
-//   io.on('connection', socket => {
-//     socket.on('new-user', (room, name) => {
-//       socket.join(room)
-//       rooms[room].users[socket.id] = name
-//       socket.to(room).broadcast.emit('user-connected', name)
-//     })
-//     socket.on('send-chat-message', (room, message) => {
-//       socket.to(room).broadcast.emit('chat-message', { message: message, name: rooms[room].users[socket.id] })
-//     })
-//     socket.on('disconnect', () => {
-//       getUserRooms(socket).forEach(room => {
-//         socket.to(room).broadcast.emit('user-disconnected', rooms[room].users[socket.id])
-//         delete rooms[room].users[socket.id]
-//       })
-//     })
-//   })
-  
-//   function getUserRooms(socket) {
-//     return Object.entries(rooms).reduce((names, [name, room]) => {
-//       if (room.users[socket.id] != null) names.push(name)
-//       return names
-//     }, [])
-//   }
-
-
-mongoose.connect(process.env.DB_CONNECT, {
-    useNewUrlParser: true
-}, () => {
-    console.log("db connection established");
-    app.listen(PORT, () => {
-        console.log(`Listening on port: ${PORT}`);
-    });
-});
-
-
-
-const PORT = process.env.PORT || 3000;
 
 
 app.get('/', (req, res) => {
@@ -163,6 +142,25 @@ app.get('/signup', (req, res) => {
     res.render('signup.ejs');
 });
 
+app.get('/movies', (req, res) => {
+  res.render('movies.ejs');
+});
+
+app.get('/book', (req, res) => {
+  res.render('books.ejs');
+});
+
+app.get('/chat', (req, res) => {
+  res.render('chat.ejs');
+});
+
+app.get('/forum', (req, res) => {
+  res.render('forum.ejs');
+});
+
+app.get('/tvshows', (req, res) => {
+  res.render('TV_shows.ejs');
+});
 
 
 app.post("/login", async (request, response) => {
@@ -252,3 +250,117 @@ app.get('/logout', function(req, res){
         });
         res.redirect('/');
      });
+
+app.post('/books', function (req, res) {
+      // If it's not showing up, just use req.body to see what is actually being passed.
+      var result = req.body.books;
+      console.log(req.body.books);
+
+      pyshell.send(JSON.stringify(result));
+
+
+      pyshell.on('message', function(message){
+        console.log(message);
+      })
+      
+      pyshell.end(function (err) {
+        if (err){
+           // throw err;
+           console.log(err.toString());
+        };
+      
+        console.log('finished');
+      });
+      var options = {
+        mode: 'text',
+        pythonPath: 'path/to/python',
+        pythonOptions: ['-u'],
+        scriptPath: 'path/to/my/scripts',
+        //args: ['value1', 'value2', 'value3']
+        args: [results]
+    };
+
+      PythonShell.run('books.py', options, function (err, results) {
+        if (err) throw err;
+        // results is an array consisting of messages collected during execution
+        console.log('results: %j', results);
+    });
+
+  });
+
+
+  app.post('/movies', function (req, res) {
+    // If it's not showing up, just use req.body to see what is actually being passed.
+    var result = req.body.Movies;
+    console.log(req.body.Movies);
+
+    pyshell2.send(JSON.stringify(result));
+
+
+    pyshell2.on('message', function(message){
+      console.log(message);
+    })
+    
+    pyshell2.end(function (err) {
+      if (err){
+         // throw err;
+         console.log(err.toString());
+      };
+    
+      console.log('finished');
+    });
+    var options = {
+      mode: 'text',
+      pythonPath: 'path/to/python',
+      pythonOptions: ['-u'],
+      scriptPath: 'path/to/my/scripts',
+      //args: ['value1', 'value2', 'value3']
+      args: [results]
+  };
+
+    PythonShell.run('tvshows.py', options, function (err, results) {
+      if (err) throw err;
+      // results is an array consisting of messages collected during execution
+      console.log('results: %j', results);
+  });
+
+});
+
+app.post('/tvshows', function (req, res) {
+  // If it's not showing up, just use req.body to see what is actually being passed.
+  var result = req.body.TV_Shows;
+  console.log(req.body.TV_Shows);
+
+  pyshell3.send(JSON.stringify(result));
+
+
+  pyshell3.on('message', function(message){
+    console.log(message);
+  })
+  
+  pyshell3.end(function (err) {
+    if (err){
+       // throw err;
+       console.log(err.toString());
+    };
+    
+    console.log('finished');
+  });
+
+  var options = {
+    mode: 'text',
+    pythonPath: 'path/to/python',
+    pythonOptions: ['-u'],
+    scriptPath: 'path/to/my/scripts',
+    //args: ['value1', 'value2', 'value3']
+    args: [results]
+};
+
+  PythonShell.run('script.py', options, function (err, results) {
+    if (err) throw err;
+    // results is an array consisting of messages collected during execution
+    console.log('results: %j', results);
+});
+
+});
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Fjalla+One&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style2.css">
+	<style>
+		#container {
+    height:250px; 
+    position:relative; 
+    overflow:hidden;
+  }
+
+  .photobanner {
+    position:absolute; 
+    top:0px; 
+    left:0px; 
+    overflow:hidden; 
+    white-space: nowrap;
+    animation: bannermove 10s linear infinite;
+  }
+
+  .photobanner img {
+    margin: 0 0.5em 
+  }
+
+  @keyframes bannermove {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-50%, 0);
+    }
+  }
+	</style>
+        <title>Genre</title>
+    </head>
+
+    <body>
+	<div id="container">
+        <div class="photobanner">
+          <img src="https://i.stack.imgur.com/xckZy.jpg" alt="">
+          <img src="https://i.stack.imgur.com/CVgbr.jpg" alt="">
+          <img src="https://i.stack.imgur.com/7c4yC.jpg" alt="">
+          <img src="https://i.stack.imgur.com/RTiml.jpg" alt="">
+          <img src="https://college.unc.edu/files/2020/05/film1.jpg" height = 350px width = 500px alt="">
+          <img src="https://i.stack.imgur.com/CVgbr.jpg" alt="">
+          <img src="https://i.stack.imgur.com/7c4yC.jpg" alt="">
+          <img src="https://i.stack.imgur.com/RTiml.jpg" alt="">
+        </div>
+      </div>
+        <h1 class="heading-1">Pick Your Hobby Of Interest</h1>
+        <div class="card">
+            <h3><a href="">MOVIES</a></h3>
+        </div>
+
+        <div class="card">
+            <h3><a href="">TV SHOWS</a></h3>
+        </div>
+
+        <div class="card" id="books">
+            <h3><a href="">BOOKS</a></h3>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,82 @@
+PUT THE FOLLOWING CODE IN STYLE
+
+
+#container {
+    height:250px; 
+    position:relative; 
+    overflow:hidden;
+  }
+
+  .photobanner {
+    position:absolute; 
+    top:0px; 
+    left:0px; 
+    overflow:hidden; 
+    white-space: nowrap;
+    animation: bannermove 10s linear infinite;
+  }
+
+  .photobanner img {
+    margin: 0 0.5em 
+  }
+
+  @keyframes bannermove {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-50%, 0);
+    }
+  }
+
+
+
+
+
+PUT THIS IN TV SHOWS BODY-HTML
+
+<div id="container">
+        <div class="photobanner">
+          
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQzQIAJk7hz1ELRW85WZFRxbzCdROxRNZp1Bw&usqp=CAU" height = 350px width = 500px alt="">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ_b_n69eZtf64JPYDIBE_VizqkbxKmlwC_Gw&usqp=CAU" height = 350px width = 500px alt="">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTNG0yWSIXb5NHT0UkwL_Qb8gighu2DhgYKag&usqp=CAU" height = 350px width = 500px alt="">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSZ3OIujBLONNHzGzD-9Dp6G7Mr2XaPTnJqkg&usqp=CAU" height = 350px width = 500px alt="">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQUCGAf-QA7Wy3okluJWjWnuP7Qm5NU2wmuQQ&usqp=CAU" height = 350px width = 500px alt="">
+	<img src="https://images.amcnetworks.com/amc.com/wp-content/uploads/2017/07/the-walking-dead-season-8-comic-con-rick-lincoln-negan-morgan-1200x707-logo-1.jpg" height = 350px width = 500px alt="">
+         
+        </div>
+      </div>
+
+
+PUT THIS IN MOVIES BODY-HTML
+
+<div id="container">
+        <div class="photobanner">
+          
+        <img src="https://discoverbeaumont.com/wp-content/uploads/2019/01/Untitled-1-7.jpg" height = 350px width = 500px alt="">
+	<img src="https://i2.wp.com/www.dailycal.org/assets/uploads/2014/06/theres-a-free-screening-of-the-wolf-of-wall-street-near-goldman-sachs-tomorrow-night.png?ssl=1" height = 350px width = 500px alt="">
+	<img src="https://i.ytimg.com/vi/RNjdepthRrg/hqdefault.jpg" height = 350px width = 500px alt="">
+	<img src="https://www.flixwatch.co/wp-content/uploads/70276515.jpg" height = 350px width = 500px alt="">
+	<img src="https://cdn.prime1studio.com/media/catalog/product/cache/1/thumbnail/9df78eab33525d08d6e5fb8d27136e95/h/d/hdmmdc-02_a19.jpg" height = 350px width = 500px alt="">
+	<img src="" height = 350px width = 500px alt="">
+	
+         
+        </div>
+      </div>
+
+PUT THIS IN MOVIES BODY-HTML
+
+<div id="container">
+        <div class="photobanner">
+          
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6EDmRAtOIF5qRbSf7LsZgqphYBaxCNPLiTQ&usqp=CAU" height = 350px width = 500px alt="">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRLhFE7WQSsOmQn7mewe6MYrkvGGLP_zLl6hQ&usqp=CAU" height = 350px width = 500px alt="">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTYuRzEYpZszgKPKcOSJok_OSzC_7WQfxMqSg&usqp=CAU" height = 350px width = 500px alt="">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRbkz-zMEGV1HuS4sx2vmqTV7bOVYX0taRFnA&usqp=CAU" height = 350px width = 500px alt="">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRORyRTM-Y59wkFzv57WmyC0juyjfWEKo5PSA&usqp=CAU" height = 350px width = 500px alt="">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQyTyP6dZUnE123A3ikNrdxh0mvuIGxuB6XAg&usqp=CAU" height = 350px width = 500px alt="">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQONi8dZW-PTerDOIan8aPt2hpKjuNFp3KoCg&usqp=CAU" height = 350px width = 500px alt="">
+        
+        </div>
+      </div>
