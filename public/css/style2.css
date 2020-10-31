@@ -1,0 +1,51 @@
+* {	
+	text-align: center;
+	font-family: 'Georgia';
+	color: #000000;
+}
+	
+	
+.card {
+	background-color: #FFEFD5;
+	float:left;
+	text-align: center;
+	padding: 70px 70px;
+	margin-left:3.8%;
+	margin-top:7.5%;
+	margin-right:3.8%;
+	width: 250px;
+	height: 180px;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	transition: 0.3s;
+	border-radius: 10px;
+	font-family: 'Dancing Script', cursive;
+	font-size:23px;
+}
+
+#container {
+    height:250px; 
+    position:relative; 
+    overflow:hidden;
+  }
+
+  .photobanner {
+    position:absolute; 
+    top:0px; 
+    left:0px; 
+    overflow:hidden; 
+    white-space: nowrap;
+    animation: bannermove 10s linear infinite;
+  }
+
+  .photobanner img {
+    margin: 0 0.5em 
+  }
+
+  @keyframes bannermove {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-50%, 0);
+    }
+  }

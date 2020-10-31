@@ -1,0 +1,36 @@
+{
+  "name": "htf20-team-18",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlekyaKowta/HTF20-Team-18.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlekyaKowta/HTF20-Team-18/issues"
+  },
+  "homepage": "https://github.com/AlekyaKowta/HTF20-Team-18#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "http": "0.0.1-security",
+    "moment": "^2.29.1",
+    "mongoose": "^5.10.11",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.6",
+    "python-shell": "^2.0.2",
+    "socket.io": "^2.3.0"
+  }
+}
